@@ -1,0 +1,46 @@
+plugins {
+	id 'java-library'
+	id 'org.checkerframework'
+	id 'maven-publish'
+	id 'eclipse'
+}
+
+dependencies {
+	// Includes the external annotations (EEA) used for null analysis.
+	api project(':blacommons-external-annotations')
+
+	testImplementation libs.junit
+}
+
+java {
+	withJavadocJar()
+}
+
+javadocJar {
+	configureJarTask(project, it)
+}
+
+check {
+	// Test compilation against Paper API:
+	dependsOn compileWithPaper
+}
+
+// Copies the project's jars into the build folder of the root project.
+task copyResults(type: Copy) {
+	from jar
+	from javadocJar
+	into rootProject.buildDir
+}
+
+assemble {
+	dependsOn copyResults
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) { publication ->
+			configureMavenPublication(project, publication)
+			from project.components.java
+		}
+	}
+}

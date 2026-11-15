@@ -1,0 +1,49 @@
+plugins {
+	id 'java-library'
+	id 'org.checkerframework'
+	id 'maven-publish'
+	id 'eclipse'
+}
+
+dependencies {
+	// compileOnly: Omits the dependency from the transitively inherited apiElements and
+	// runtimeElements. Consumers are expected to declare the Bukkit dependency themselves.
+	compileOnly libs.spigot.api // Includes the Bukkit API
+	api project(':blacommons-core')
+
+	testImplementation libs.spigot.api
+	testImplementation libs.junit
+}
+
+java {
+	withJavadocJar()
+}
+
+javadocJar {
+	configureJarTask(project, it)
+}
+
+check {
+	// Test compilation against Paper API:
+	dependsOn compileWithPaper
+}
+
+// Copies the project's jars into the build folder of the root project.
+task copyResults(type: Copy) {
+	from jar
+	from javadocJar
+	into rootProject.buildDir
+}
+
+assemble {
+	dependsOn copyResults
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) { publication ->
+			configureMavenPublication(project, publication)
+			from project.components.java
+		}
+	}
+}

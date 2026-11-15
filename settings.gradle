@@ -1,0 +1,20 @@
+rootProject.name = 'blacommons'
+
+def subprojects = [
+	'external-annotations',
+	'core',
+	'bukkit',
+	'text',
+	'data',
+	'config',
+	'commands',
+	'ui',
+	'input',
+	'test'
+]
+
+subprojects.each { subproject ->
+	include subproject
+	project(":${subproject}").projectDir = file("modules/${subproject}")
+	project(":${subproject}").name = "blacommons-${subproject}"
+}

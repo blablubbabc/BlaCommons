@@ -1,0 +1,24 @@
+plugins {
+	id 'java-library'
+	id 'org.checkerframework'
+	id 'eclipse'
+}
+
+dependencies {
+	testImplementation project(':blacommons-core')
+	testImplementation project(':blacommons-data')
+	testImplementation project(':blacommons-bukkit')
+	testImplementation project(':blacommons-text')
+	testImplementation project(':blacommons-config')
+	testImplementation project(':blacommons-commands')
+	testImplementation project(':blacommons-ui')
+	testImplementation project(':blacommons-input')
+	testImplementation libs.spigot.api
+	testImplementation libs.junit
+	testImplementation libs.hamcrest
+}
+
+jar {
+	// No output artifacts required.
+	enabled = false
+}

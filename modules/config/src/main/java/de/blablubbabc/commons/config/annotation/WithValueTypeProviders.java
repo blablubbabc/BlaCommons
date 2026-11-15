@@ -1,0 +1,16 @@
+package de.blablubbabc.commons.config.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * Container annotation for multiple instances of {@link WithValueTypeProvider}.
+ */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@interface WithValueTypeProviders {
+
+	WithValueTypeProvider[] value();
+}
