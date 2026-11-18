@@ -16,23 +16,16 @@ dependencies {
 	testImplementation libs.junit
 }
 
-java {
-	withJavadocJar()
-}
-
-javadocJar {
-	configureJarTask(project, it)
-}
-
 check {
 	// Test compilation against Paper API:
 	dependsOn compileWithPaper
+	// Check the Javadoc, but don't publish it to keep the published package size low:
+	dependsOn javadoc
 }
 
 // Copies the project's jars into the build folder of the root project.
 task copyResults(type: Copy) {
 	from jar
-	from javadocJar
 	into rootProject.buildDir
 }
 
