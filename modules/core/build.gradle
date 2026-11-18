@@ -7,7 +7,8 @@ plugins {
 
 dependencies {
 	// Includes the external annotations (EEA) used for null analysis.
-	api project(':blacommons-external-annotations')
+	// Compile only: Not needed at runtime, and keeps them out of the shaded plugin jars.
+	compileOnlyApi project(':blacommons-external-annotations')
 
 	testImplementation libs.junit
 }
