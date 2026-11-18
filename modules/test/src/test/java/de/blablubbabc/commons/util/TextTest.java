@@ -3,6 +3,7 @@ package de.blablubbabc.commons.util;
 import static org.junit.Assert.*;
 
 import org.bukkit.ChatColor;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.Test;
 
 import de.blablubbabc.commons.text.Text;
@@ -72,7 +73,7 @@ public class TextTest {
 	// Tests the Text parsing and backwards conversion with some sample messages.
 	@Test
 	public void testMessageConversions() {
-		String[] messages = {
+		@NonNull String[] messages = {
 				"&aPlain colored text",
 				"&7Text with &e{placeholder}&7 and more",
 				"&cMultiple\nlines &6of text",
