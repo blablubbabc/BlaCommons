@@ -10,6 +10,9 @@ plugins {
 ext.getGitHash = { ->
 	return providers.exec {
 		commandLine 'git', 'rev-parse', '--short', 'HEAD'
+		// Also retrieve this repo's hash when this build is included in another build via
+		// includeBuild:
+		workingDir = rootDir
 	}.standardOutput.asText.get().trim()
 }
 
