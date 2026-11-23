@@ -2,6 +2,7 @@ package de.blablubbabc.commons.config.bukkit;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.List;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -13,6 +14,7 @@ import de.blablubbabc.commons.config.bukkit.values.ColoredStringValue;
 import de.blablubbabc.commons.config.value.ValueType;
 import de.blablubbabc.commons.config.value.types.StringListValue;
 import de.blablubbabc.commons.config.value.types.StringValue;
+import de.blablubbabc.commons.util.bukkit.TextUtils;
 
 /**
  * A {@link Config} that additionally supports the {@link Colored} and {@link Uncolored}
@@ -70,5 +72,29 @@ public abstract class BukkitConfig extends Config {
 			}
 		}
 		return null;
+	}
+
+	// CONVENIENCE HELPERS
+
+	/**
+	 * Translates {@code &}-based color codes to Minecraft's {@code §}-based color codes.
+	 * 
+	 * @param text
+	 *            the text with {@code &}-based color codes
+	 * @return the text with Minecraft's color codes
+	 */
+	protected static String c(String text) {
+		return TextUtils.colorize(text);
+	}
+
+	/**
+	 * Translates {@code &}-based color codes to Minecraft's {@code §}-based color codes.
+	 * 
+	 * @param texts
+	 *            the texts with {@code &}-based color codes, not <code>null</code>
+	 * @return a new list containing the corresponding texts with Minecraft's color codes
+	 */
+	protected static List<String> c(List<? extends String> texts) {
+		return TextUtils.colorize(texts);
 	}
 }
