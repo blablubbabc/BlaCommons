@@ -85,7 +85,7 @@ public abstract class Config {
 		Class<?> parentClass = Unsafe.assertNonNull(configClass.getSuperclass());
 		while (parentClass != Config.class) {
 			settings = Stream.concat(settings, this.streamSettingFields(parentClass));
-			parentClass = configClass.getSuperclass();
+			parentClass = parentClass.getSuperclass();
 			assert parentClass != null;
 		}
 		return settings;
@@ -189,7 +189,7 @@ public abstract class Config {
 		Class<?> parentClass = Unsafe.assertNonNull(configClass.getSuperclass());
 		while (parentClass != Config.class) {
 			this.setupCustomDefaultValueTypes(parentClass);
-			parentClass = configClass.getSuperclass();
+			parentClass = parentClass.getSuperclass();
 			assert parentClass != null;
 		}
 	}
