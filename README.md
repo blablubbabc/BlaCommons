@@ -22,6 +22,7 @@ All artifacts use the group id `de.blablubbabc` and share the root package `de.b
 | `input` | `blacommons-input` | core, bukkit | Chat and interaction player input handling. |
 | `external-annotations` | `blacommons-external-annotations` | none | External Eclipse null annotations for null analysis during development. |
 | `test` | none | all | Tests. |
+| `sample` | none | all | An example plugin. |
 
 ## Versioning Scheme
 
@@ -51,6 +52,8 @@ shadowJar {
   relocate 'de.blablubbabc.commons', 'your.plugin.libs.common'
 }
 ```
+
+For an example, see the [build.gradle](modules/sample/build.gradle) of the sample plugin.
 
 ## Host Plugin Setup
 
@@ -83,6 +86,8 @@ public class MyPlugin extends JavaPlugin {
 * The modules: The `BlaCommonsModule` instances of all used library modules, in dependency order. Every module except `core` and `bukkit` provides one in its `bootstrap` sub-package (e.g. `de.blablubbabc.commons.text.bootstrap.TextModule`).
 
 Library components that need a plugin instance (for example to register listeners or schedule tasks) use the plugin passed to `onLoad`.
+
+For an example, see the [`SamplePlugin`](modules/sample/src/main/java/de/blablubbabc/sample/SamplePlugin.java).
 
 ## Building
 

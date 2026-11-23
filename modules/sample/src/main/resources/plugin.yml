@@ -1,0 +1,7 @@
+name: BlaCommonsSample
+version: ${version}
+main: de.blablubbabc.sample.SamplePlugin
+api-version: '1.21.5'
+commands:
+  blasample:
+    description: Command of the BlaCommons sample plugin.

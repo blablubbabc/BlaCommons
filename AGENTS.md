@@ -26,6 +26,7 @@ This is a multi-module Gradle project (Java). It is a library that is meant to b
 - `modules/input`: Chat and interaction player input handling.
 - `modules/external-annotations`: Custom external Eclipse annotations for null checking.
 - `modules/test`: Tests.
+- `modules/sample`: An example plugin.
 
 ## Code Style
 

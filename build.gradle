@@ -1,6 +1,7 @@
 plugins {
 	id 'base' // Adds the clean task to the root project
 	id 'org.checkerframework' version '0.6.39' apply false
+	id 'com.gradleup.shadow' version '9.6.1' apply false
 	id 'org.ajoberstar.git-publish' version '5.1.1'
 	// Useful for build debugging:
 	// https://gitlab.com/barfuin/gradle-taskinfo
@@ -202,7 +203,10 @@ subprojects {
 		}
 
 		processResources {
-			from rootProject.file('LICENSE')
+			from(rootProject.file('LICENSE')) {
+				// Keep it separate from the files of the plugins that shade the library:
+				into 'META-INF/blacommons'
+			}
 			from project.sourceSets.main.resources.srcDirs
 			// TODO Some plugins might add resource directories twice.
 			// See https://github.com/gradle/gradle/issues/17236

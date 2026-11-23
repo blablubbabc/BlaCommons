@@ -1,0 +1,95 @@
+// An example plugin that uses BlaCommons. Not published.
+// Differences to a real plugin are marked with "Sample:".
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'com.gradleup.shadow'
+}
+
+// Sample: A real plugin declares its own repositories (this project inherits them from the root
+// project). For example:
+//repositories {
+//	mavenCentral()
+//	maven { url = 'https://hub.spigotmc.org/nexus/content/groups/public/' }
+//	maven { url = 'https://raw.githubusercontent.com/blablubbabc/BlaCommonsRepository/main/releases/' }
+//}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_21
+}
+
+// Sample: A real plugin specifies the used BlaCommons version here.
+def blaCommonsVersion = version
+
+dependencies {
+	compileOnly libs.spigot.api
+	implementation "de.blablubbabc:blacommons-text:${blaCommonsVersion}"
+	implementation "de.blablubbabc:blacommons-data:${blaCommonsVersion}"
+	implementation "de.blablubbabc:blacommons-config:${blaCommonsVersion}"
+	implementation "de.blablubbabc:blacommons-commands:${blaCommonsVersion}"
+	implementation "de.blablubbabc:blacommons-ui:${blaCommonsVersion}"
+	implementation "de.blablubbabc:blacommons-input:${blaCommonsVersion}"
+}
+
+// Sample: Use the BlaCommons modules of this build instead of the published artifacts. A real
+// plugin omits this.
+configurations.configureEach {
+	resolutionStrategy.dependencySubstitution.all { DependencySubstitution dependency ->
+		def requested = dependency.requested
+		if (requested instanceof ModuleComponentSelector && requested.group == 'de.blablubbabc') {
+			def targetProject = findProject(":${requested.module}")
+			if (targetProject != null) {
+				dependency.useTarget targetProject
+			}
+		}
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
+}
+
+processResources {
+	def pluginVersion = project.version
+	inputs.property 'version', pluginVersion
+	filesMatching('plugin.yml') {
+		expand(version: pluginVersion)
+	}
+}
+
+shadowJar {
+	// No classifier: This is the plugin jar.
+	archiveClassifier = ''
+	// Always relocate the shaded library packages:
+	relocate 'de.blablubbabc.commons', 'de.blablubbabc.sample.libs.commons'
+}
+
+jar {
+	// Only the shadow jar is used:
+	enabled = false
+}
+
+assemble {
+	dependsOn shadowJar
+}
+
+// Sample: Checks that the library classes are relocated and that no external annotations are
+// shaded into the plugin jar.
+task verifyShadowJar {
+	def jarFile = shadowJar.archiveFile
+	inputs.file jarFile
+	doLast {
+		def invalidEntries = new java.util.zip.ZipFile(jarFile.get().asFile).withCloseable { zip ->
+			zip.entries().collect { it.name }.findAll {
+				it.startsWith('de/blablubbabc/commons/') || it.endsWith('.eea')
+			}
+		}
+		if (!invalidEntries.isEmpty()) {
+			throw new GradleException("Unexpected entries in the plugin jar: " + invalidEntries)
+		}
+	}
+}
+
+check {
+	dependsOn verifyShadowJar
+}

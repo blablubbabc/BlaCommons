@@ -10,7 +10,8 @@ def subprojects = [
 	'commands',
 	'ui',
 	'input',
-	'test'
+	'test',
+	'sample'
 ]
 
 subprojects.each { subproject ->
