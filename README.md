@@ -54,19 +54,35 @@ shadowJar {
 
 ## Host Plugin Setup
 
-Plugins that use the library call the bootstrap class `de.blablubbabc.commons.bootstrap.BlaCommons` (module `bukkit`):
+Plugins that use the library set it up via the bootstrap class `de.blablubbabc.commons.bootstrap.BlaCommons` (module `bukkit`):
 
-* `BlaCommons.onLoad(plugin, modules...)` at the start of `onLoad`.
-* `BlaCommons.onEnable()` at the start of `onEnable`.
-* `BlaCommons.onDisable()` at the end of `onDisable`.
+```java
+public class MyPlugin extends JavaPlugin {
+
+  @Override
+  public void onLoad() {
+    // At the start of onLoad:
+    BlaCommons.onLoad(this, new MyCompatProvider(), TextModule.INSTANCE, UIModule.INSTANCE);
+  }
+
+  @Override
+  public void onEnable() {
+    // At the start of onEnable:
+    BlaCommons.onEnable();
+  }
+
+  @Override
+  public void onDisable() {
+    // At the end of onDisable:
+    BlaCommons.onDisable();
+  }
+}
+```
+
+* `MyCompatProvider`: The plugin's own implementation of the `CompatProvider` interface (module `bukkit`), for functionality that might differ between server versions or server implementations.
+* The modules: The `BlaCommonsModule` instances of all used library modules, in dependency order. Every module except `core` and `bukkit` provides one in its `bootstrap` sub-package (e.g. `de.blablubbabc.commons.text.bootstrap.TextModule`).
 
 Library components that need a plugin instance (for example to register listeners or schedule tasks) use the plugin passed to `onLoad`.
-
-The `modules` are the `BlaCommonsModule` instances of all used library modules, in dependency order. Every module except `core` and `bukkit` provides a module class (e.g. `TextModule`, `ConfigModule`, `UIModule`, etc.) in their respective `bootstrap` sub-package (e.g. `de.blablubbabc.commons.text.bootstrap`).
-
-Example: `BlaCommons.onLoad(this, TextModule.INSTANCE, UIModule.INSTANCE);`
-
-The `bukkit` module contains a `Compat` hook for functionality that might differ between server versions or server implementations. Host plugins must provide their own `CompatProvider` implementation via `Compat.setProvider(...)` early during startup, before `BlaCommons.onLoad` is called.
 
 ## Building
 

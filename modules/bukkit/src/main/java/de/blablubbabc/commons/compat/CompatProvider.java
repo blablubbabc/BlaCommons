@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import de.blablubbabc.commons.annotations.ReadOnly;
+import de.blablubbabc.commons.bootstrap.BlaCommons;
 import de.blablubbabc.commons.util.inventory.UnmodifiableItemStack;
 import de.blablubbabc.commons.util.inventory.UnmodifiableItemStackImpl;
 import de.blablubbabc.commons.util.java.Unsafe;
@@ -14,7 +15,7 @@ import de.blablubbabc.commons.util.java.Unsafe;
  * Server version and implementation specific functionality (e.g. Spigot vs Paper), as well as other
  * optional hooks that the host plugin can override to adapt certain aspects.
  * <p>
- * Implemented by the host plugin and registered via {@link Compat#setProvider(CompatProvider)}.
+ * Implemented by the host plugin and passed to {@link BlaCommons#onLoad BlaCommons.onLoad}.
  */
 public interface CompatProvider {
 

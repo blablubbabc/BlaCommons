@@ -10,20 +10,23 @@ import org.bukkit.plugin.Plugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import de.blablubbabc.commons.compat.Compat;
+import de.blablubbabc.commons.compat.CompatProvider;
 import de.blablubbabc.commons.logging.Log;
 import de.blablubbabc.commons.util.java.Validate;
 
 /**
  * Entry point for plugins that use this library.
  * <p>
- * The host plugin is expected to call {@link #onLoad(Plugin, BlaCommonsModule...)} early during its
- * <code>onLoad</code>, {@link #onEnable()} at the start of its <code>onEnable</code>, and
- * {@link #onDisable()} at the end of its <code>onDisable</code>. This way, the library modules are
- * available to the host plugin's own components during their setup and shutdown.
+ * The host plugin is expected to call {@link #onLoad(Plugin, CompatProvider, BlaCommonsModule...)}
+ * early during its <code>onLoad</code>, {@link #onEnable()} at the start of its
+ * <code>onEnable</code>, and {@link #onDisable()} at the end of its <code>onDisable</code>. This
+ * way, the library modules are available to the host plugin's own components during their setup and
+ * shutdown.
  * <p>
  * The host plugin passes the {@link BlaCommonsModule}s of the used library modules to
- * {@link #onLoad(Plugin, BlaCommonsModule...)}. Their lifecycle methods are then invoked together
- * with the corresponding lifecycle methods of this class.
+ * {@link #onLoad(Plugin, CompatProvider, BlaCommonsModule...)}. Their lifecycle methods are then
+ * invoked together with the corresponding lifecycle methods of this class.
  * <p>
  * Library components that require a {@link Plugin}, for example to register event listeners or to
  * schedule tasks, use {@link #getPlugin()}.
@@ -38,18 +41,26 @@ public final class BlaCommons {
 	/**
 	 * Sets up the library for the given host plugin.
 	 * <p>
-	 * This also sets the {@link Log#setLogger(Logger) logger} to the logger of the plugin.
+	 * This also sets the {@link Compat#setProvider(CompatProvider) compat provider}, and the
+	 * {@link Log#setLogger(Logger) logger} to the logger of the plugin.
 	 * <p>
 	 * The given modules are loaded in the given order. Modules that depend on other modules have to
 	 * be specified after these other modules.
 	 * 
 	 * @param plugin
 	 *            the host plugin, not <code>null</code>
+	 * @param compatProvider
+	 *            the {@link CompatProvider}, not <code>null</code>
 	 * @param modules
 	 *            the used library modules, not <code>null</code>
 	 */
-	public static void onLoad(Plugin plugin, @NonNull BlaCommonsModule... modules) {
+	public static void onLoad(
+			Plugin plugin,
+			CompatProvider compatProvider,
+			@NonNull BlaCommonsModule... modules
+	) {
 		Validate.notNull(plugin, "plugin is null");
+		Validate.notNull(compatProvider, "compatProvider is null");
 		Validate.notNull(modules, "modules is null");
 
 		var moduleList = new ArrayList<>(Arrays.asList(modules));
@@ -58,6 +69,7 @@ public final class BlaCommons {
 		BlaCommons.plugin = plugin;
 		BlaCommons.modules = moduleList;
 		Log.setLogger(plugin.getLogger());
+		Compat.setProvider(compatProvider);
 
 		BlaCommons.modules.forEach(module -> module.onLoad(plugin));
 	}
@@ -66,7 +78,8 @@ public final class BlaCommons {
 	 * Marks the library as enabled.
 	 * 
 	 * @throws IllegalStateException
-	 *             if {@link #onLoad(Plugin, BlaCommonsModule...)} has not been called yet
+	 *             if {@link #onLoad(Plugin, CompatProvider, BlaCommonsModule...)} has not been
+	 *             called yet
 	 */
 	public static void onEnable() {
 		Validate.State.notNull(plugin, "onLoad has not been called yet!");
@@ -92,7 +105,8 @@ public final class BlaCommons {
 	 * 
 	 * @return the host plugin, not <code>null</code>
 	 * @throws IllegalStateException
-	 *             if {@link #onLoad(Plugin, BlaCommonsModule...)} has not been called yet
+	 *             if {@link #onLoad(Plugin, CompatProvider, BlaCommonsModule...)} has not been
+	 *             called yet
 	 */
 	public static Plugin getPlugin() {
 		return Validate.State.notNull(plugin, "onLoad has not been called yet!");

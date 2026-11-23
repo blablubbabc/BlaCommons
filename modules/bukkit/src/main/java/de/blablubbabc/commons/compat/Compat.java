@@ -2,14 +2,14 @@ package de.blablubbabc.commons.compat;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import de.blablubbabc.commons.bootstrap.BlaCommons;
 import de.blablubbabc.commons.util.java.Validate;
 
 /**
  * Provides access to the {@link CompatProvider} that implements the server version and server
  * implementation specific functionality.
  * <p>
- * The host plugin has to {@link #setProvider(CompatProvider) set} the provider early during its
- * startup.
+ * The host plugin passes its provider to {@link BlaCommons#onLoad BlaCommons.onLoad}.
  */
 public final class Compat {
 
