@@ -12,6 +12,8 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import de.blablubbabc.commons.compat.Compat;
 import de.blablubbabc.commons.compat.CompatProvider;
+import de.blablubbabc.commons.debug.BukkitDebugOptions;
+import de.blablubbabc.commons.debug.DebugOptions;
 import de.blablubbabc.commons.logging.Log;
 import de.blablubbabc.commons.util.java.Validate;
 
@@ -70,6 +72,8 @@ public final class BlaCommons {
 		BlaCommons.modules = moduleList;
 		Log.setLogger(plugin.getLogger());
 		Compat.setProvider(compatProvider);
+
+		DebugOptions.addAll(BukkitDebugOptions.getAll());
 
 		BlaCommons.modules.forEach(module -> module.onLoad(plugin));
 	}

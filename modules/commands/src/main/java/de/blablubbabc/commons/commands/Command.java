@@ -25,7 +25,7 @@ import de.blablubbabc.commons.commands.context.BufferedCommandContext;
 import de.blablubbabc.commons.commands.context.CommandContext;
 import de.blablubbabc.commons.commands.context.CommandContextView;
 import de.blablubbabc.commons.commands.context.SimpleCommandContext;
-import de.blablubbabc.commons.debug.DebugOptions;
+import de.blablubbabc.commons.commands.debug.CommandsDebugOptions;
 import de.blablubbabc.commons.logging.Log;
 import de.blablubbabc.commons.text.Text;
 import de.blablubbabc.commons.text.util.TextHelpers;
@@ -507,11 +507,12 @@ public abstract class Command {
 		ArgumentsReader argsReader = new ArgumentsReader(input);
 		try {
 			this.processCommand(input, context, argsReader);
-			Log.debug(DebugOptions.COMMANDS, () -> "Command succeeded. Context: " + context);
+			Log.debug(CommandsDebugOptions.COMMANDS,
+					() -> "Command succeeded. Context: " + context);
 		} catch (CommandException e) {
 			TextHelpers.sendMessage(sender, e.getMessageText());
 
-			Log.debug(DebugOptions.COMMANDS, () -> {
+			Log.debug(CommandsDebugOptions.COMMANDS, () -> {
 				StringBuilder sb = new StringBuilder();
 				sb.append("Command failed. Argument chain: ");
 				CommandArgument<?> argument = null;
@@ -521,9 +522,9 @@ public abstract class Command {
 				sb.append(this.getArgumentChain(argument));
 				return sb.toString();
 			});
-			Log.debug(DebugOptions.COMMANDS, "Command exception: ", e);
-			Log.debug(DebugOptions.COMMANDS, () -> "Context: " + context);
-			Log.debug(DebugOptions.COMMANDS, () -> "ArgumentsReader: " + argsReader);
+			Log.debug(CommandsDebugOptions.COMMANDS, "Command exception: ", e);
+			Log.debug(CommandsDebugOptions.COMMANDS, () -> "Context: " + context);
+			Log.debug(CommandsDebugOptions.COMMANDS, () -> "ArgumentsReader: " + argsReader);
 		} catch (Exception e) {
 			// An unexpected exception was caught:
 			TextHelpers.sendMessage(
@@ -857,7 +858,7 @@ public abstract class Command {
 			// ArgumentRejectedException):
 			var argumentRejectedException = parsingContext.getCurrentArgumentRejectedException();
 			if (argumentRejectedException != null) {
-				Log.debug(DebugOptions.COMMANDS,
+				Log.debug(CommandsDebugOptions.COMMANDS,
 						() -> "Argument rejected  '" + argument.getName() + "': "
 								+ argumentRejectedException.getMessage());
 				throw argumentRejectedException;
@@ -896,7 +897,7 @@ public abstract class Command {
 			// On success this stores any parsed values inside the context:
 			argument.parse(parsingContext.input, context, argsReader);
 		} catch (FallbackArgumentException e) {
-			Log.debug(DebugOptions.COMMANDS,
+			Log.debug(CommandsDebugOptions.COMMANDS,
 					() -> "Fallback for argument '" + argument.getName() + "': " + e.getMessage());
 			argsReader.setState(argsReaderState); // Restore previous args reader state
 

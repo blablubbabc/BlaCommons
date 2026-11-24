@@ -7,7 +7,6 @@ import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import de.blablubbabc.commons.debug.Debug;
-import de.blablubbabc.commons.debug.DebugOptions;
 import de.blablubbabc.commons.logging.Log;
 import de.blablubbabc.commons.text.ClickEventText;
 import de.blablubbabc.commons.text.FormattingText;
@@ -20,6 +19,7 @@ import de.blablubbabc.commons.text.PlaceholderText;
 import de.blablubbabc.commons.text.PlainText;
 import de.blablubbabc.commons.text.Text;
 import de.blablubbabc.commons.text.TranslatableText;
+import de.blablubbabc.commons.text.debug.TextDebugOptions;
 import de.blablubbabc.commons.util.bukkit.RegistryUtils;
 import de.blablubbabc.commons.util.bukkit.ServerUtils;
 import de.blablubbabc.commons.util.bukkit.TextUtils;
@@ -59,7 +59,7 @@ public final class SpigotText {
 		public static void sendMessage(CommandSender recipient, Text message) {
 			assert recipient != null && message != null;
 			BaseComponent component = toSpigot(message);
-			if (Debug.isDebugging(DebugOptions.TEXT_COMPONENTS)) {
+			if (Debug.isDebugging(TextDebugOptions.TEXT_COMPONENTS)) {
 				Log.info("Text: " + message);
 				Log.info("Plain text: " + message.toPlainText());
 				Log.info("Format: " + message.toFormat());

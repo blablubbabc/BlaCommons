@@ -86,7 +86,7 @@ public class MyPlugin extends JavaPlugin {
 ```
 
 * `MyCompatProvider`: The plugin's own implementation of the `CompatProvider` interface (module `bukkit`), for functionality that might differ between server versions or server implementations.
-* `Debug` (module `core`): The library's debug output is disabled by default. Plugins can enable it at any time via `Debug.setDebugging`, and enable individual debug options (see `DebugOptions`) via `Debug.setDebugOptions` or `Debug.setDebugOption`, e.g. when loading their config or via a command.
+* `Debug` (module `core`): The library's debug output is disabled by default. Plugins can enable it at any time via `Debug.setDebugging`, and enable individual debug options via `Debug.setDebugOptions` or `Debug.setDebugOption`, e.g. when loading their config or via a command. The modules define their debug options in their `*DebugOptions` classes (e.g. `TextDebugOptions`), and register them in `DebugOptions` when they are loaded.
 * The modules: The `BlaCommonsModule` instances of all used library modules, in dependency order. Every module except `core` and `bukkit` provides one in its `bootstrap` sub-package (e.g. `de.blablubbabc.commons.text.bootstrap.TextModule`).
 
 Library components that need a plugin instance (for example to register listeners or schedule tasks) use the plugin passed to `onLoad`.

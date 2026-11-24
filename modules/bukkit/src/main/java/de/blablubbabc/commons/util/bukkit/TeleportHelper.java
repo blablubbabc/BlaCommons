@@ -17,8 +17,8 @@ import org.bukkit.util.BoundingBox;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import de.blablubbabc.commons.debug.BukkitDebugOptions;
 import de.blablubbabc.commons.debug.Debug;
-import de.blablubbabc.commons.debug.DebugOptions;
 import de.blablubbabc.commons.logging.Log;
 import de.blablubbabc.commons.util.java.Validate;
 
@@ -159,7 +159,7 @@ public final class TeleportHelper {
 	}
 
 	private static void debugUnsafeTeleportLocation(Block block, String message) {
-		if (Debug.isDebugging(DebugOptions.UNSAFE_TELEPORTS)) {
+		if (Debug.isDebugging(BukkitDebugOptions.UNSAFE_TELEPORTS)) {
 			Log.info("Unsafe teleport location " + TextUtils.getLocationString(block) + ": "
 					+ message);
 		}
@@ -246,7 +246,7 @@ public final class TeleportHelper {
 				return null;
 			}
 
-			if (Debug.isDebugging(DebugOptions.UNSAFE_TELEPORTS)) {
+			if (Debug.isDebugging(BukkitDebugOptions.UNSAFE_TELEPORTS)) {
 				Log.info("Block shape: "
 						+ Arrays.toString(blockInBoundingBox.getCollisionShape().getBoundingBoxes().toArray())
 						+ " | Entity bounding box: " + boundingBox.toString());

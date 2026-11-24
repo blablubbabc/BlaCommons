@@ -3,8 +3,8 @@ package de.blablubbabc.commons.debug.events;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+import de.blablubbabc.commons.debug.BukkitDebugOptions;
 import de.blablubbabc.commons.debug.Debug;
-import de.blablubbabc.commons.debug.DebugOptions;
 import de.blablubbabc.commons.util.java.Validate;
 
 /**
@@ -24,8 +24,8 @@ public class EventDebugger {
 			// Register debug listener if enabled:
 			// Run delayed to also catch events / event listeners of other plugins.
 			Bukkit.getScheduler().runTaskLater(plugin, () -> {
-				boolean logAllEvent = Debug.isDebugging(DebugOptions.LOG_ALL_EVENTS);
-				boolean printListeners = Debug.isDebugging(DebugOptions.PRINT_LISTENERS);
+				boolean logAllEvent = Debug.isDebugging(BukkitDebugOptions.LOG_ALL_EVENTS);
+				boolean printListeners = Debug.isDebugging(BukkitDebugOptions.PRINT_LISTENERS);
 				if (logAllEvent || printListeners) {
 					DebugListener.register(logAllEvent, printListeners);
 				}
