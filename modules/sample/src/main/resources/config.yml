@@ -1,0 +1,12 @@
+# Enables debug output:
+debug: false
+# Additional debug options:
+# - 'log-all-events': Logs all events.
+# - 'print-listeners': Prints the registered listeners for the first call of
+#    each event.
+# - 'commands': Enables additional commands related debugging output.
+# - 'text-components': Logs additional debug output whenever component-based
+#    text is sent.
+# - 'unsafe-teleports': Logs additional debug output whenever a teleport is
+#    considered unsafe.
+debug-options: []

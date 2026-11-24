@@ -2,12 +2,14 @@ package de.blablubbabc.sample;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.blablubbabc.commons.bootstrap.BlaCommons;
 import de.blablubbabc.commons.commands.bootstrap.CommandsModule;
 import de.blablubbabc.commons.config.bootstrap.ConfigModule;
 import de.blablubbabc.commons.data.bootstrap.DataModule;
+import de.blablubbabc.commons.debug.Debug;
 import de.blablubbabc.commons.input.bootstrap.InputModule;
 import de.blablubbabc.commons.logging.Log;
 import de.blablubbabc.commons.text.Text;
@@ -29,12 +31,18 @@ public class SamplePlugin extends JavaPlugin {
 				UIModule.INSTANCE,
 				InputModule.INSTANCE
 		);
+
+		this.saveDefaultConfig();
+		Configuration config = this.getConfig();
+		Debug.setDebugging(config.getBoolean("debug"));
+		Debug.setDebugOptions(config.getStringList("debug-options"));
 	}
 
 	@Override
 	public void onEnable() {
 		BlaCommons.onEnable();
 		Log.info("BlaCommons sample plugin enabled.");
+		Log.debug("Debugging is enabled.");
 	}
 
 	@Override
