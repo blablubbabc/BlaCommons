@@ -122,7 +122,7 @@ subprojects {
 
 		dependencies {
 			// ECJ compiler for null analysis
-			ecj 'org.eclipse.jdt:ecj:3.38.0'
+			ecj 'org.eclipse.jdt:ecj:3.45.0'
 
 			paperCompileOnly libs.paper.api
 		}
@@ -141,7 +141,7 @@ subprojects {
 			destinationDirectory = layout.buildDirectory.dir("classes-ecj")
 
 			// The Java version required to run ECJ:
-			def ECJ_REQUIRED_JAVA_VERSION = 11
+			def ECJ_REQUIRED_JAVA_VERSION = 17
 
 			// The Java version to request the toolchain for if the project's toolchain is not
 			// compatible with the ECJ requirements:
