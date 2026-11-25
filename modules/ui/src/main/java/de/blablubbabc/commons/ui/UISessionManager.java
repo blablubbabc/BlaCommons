@@ -56,6 +56,32 @@ public final class UISessionManager {
 		}
 
 		/**
+		 * Called when a UI session has started, i.e. after the given {@link View} has been
+		 * registered as the player's UI session, but before it is opened.
+		 * <p>
+		 * Can for example be used to track additional state for each session.
+		 * <p>
+		 * Every started UI session is eventually followed by exactly one call to
+		 * {@link #onSessionEnded(View)}, also if the view fails to open.
+		 * 
+		 * @param view
+		 *            the view, not <code>null</code>
+		 */
+		public default void onSessionStarted(View view) {
+		}
+
+		/**
+		 * Called when a UI session has ended, i.e. after the given {@link View} has been removed as
+		 * the player's UI session and has been marked as {@link View#isValid() invalid}, but before
+		 * the view handles the closing of its inventory.
+		 * 
+		 * @param view
+		 *            the view, not <code>null</code>
+		 */
+		public default void onSessionEnded(View view) {
+		}
+
+		/**
 		 * Whether the verification that the inventory view a player interacts with matches the
 		 * view's expected inventory view is disabled.
 		 * 
@@ -192,6 +218,7 @@ public final class UISessionManager {
 
 		// Register the new UI session:
 		uiSessions.put(player.getUniqueId(), view);
+		sessionHandler.onSessionStarted(view);
 
 		// Open the view for the player:
 		if (!view.open()) {
@@ -282,6 +309,7 @@ public final class UISessionManager {
 		Log.debug(() -> "UI session '" + session.getUIType().getIdentifier()
 				+ "' ended for player " + session.getPlayer().getName() + ".");
 		session.onSessionEnd(); // Invalidate the session
+		sessionHandler.onSessionEnded(session);
 		session.onInventoryClose(closeEvent); // Inform the view
 	}
 
