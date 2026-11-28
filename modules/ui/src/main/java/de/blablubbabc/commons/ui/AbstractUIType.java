@@ -1,5 +1,7 @@
 package de.blablubbabc.commons.ui;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 import de.blablubbabc.commons.util.java.Validate;
 
 // TODO Handle enabled state and permission of UI types generally? Currently, most UIs handle
@@ -20,5 +22,27 @@ public abstract class AbstractUIType implements UIType {
 	@Override
 	public final String getIdentifier() {
 		return identifier;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(this.getClass().getName());
+		builder.append(" [identifier=");
+		builder.append(identifier);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	// hashCode and equals: Instances are compared by identity.
+
+	@Override
+	public final int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public final boolean equals(@Nullable Object obj) {
+		return super.equals(obj);
 	}
 }
