@@ -13,6 +13,7 @@ This is a multi-module Gradle project (Java). It is a library that is meant to b
 - `build.gradle`: Gradle build config, including shared configuration for the other sub modules.
 - `CHANGELOG.md`: Changelog of all library versions.
 - `Assumptions.md`: Implicit assumptions the library makes about the implementation of the underlying Minecraft servers that implement the Bukkit API.
+- `Update-Checklist.md`: Steps for Minecraft/Bukkit version updates.
 - `scripts/`: Build and helper scripts.
 - `repo/`: Checkout target for publishing the Maven repository.
 - `modules/`: Sub-module projects. The Java root package is `de.blablubbabc.commons`.
@@ -48,6 +49,10 @@ This is a multi-module Gradle project (Java). It is a library that is meant to b
 - Start sentences in upper-case. Also use upper-case after colons `:`!
 - Only describe the particular component/code element itself. Do not mention internal implementation details of other referenced code or implicitly coupled components!
 - In Javadoc comments, format empty lines as `" * "` (asterisk followed by a single trailing space). Do not strip that trailing space.
+
+## Minecraft/Bukkit Updates
+
+When updating to a new Minecraft/Bukkit version, follow the dedicated `Update-Checklist.md` instructions, but leave the "On every update" steps (releasing and publishing) to the user.
 
 ## Additional Agent Instructions
 
